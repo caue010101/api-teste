@@ -3,32 +3,25 @@ using StudioIncantare.Repositories;
 using StudioIncantare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using StudioIncantare.Services;
 
 [ApiController]
 [Route("api/[controller]")]
 
 public class ContactController : ControllerBase
 {
-    private readonly IContactRepository _repository;
+    private readonly IContactService _service;
 
-    public ContactController(IContactRepository repository)
+    public ContactController(IContactService service)
     {
-        this._repository = repository;
+        this._service = service;
+
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateContact([FromBody] CreateContactDto dto)
     {
-        var contact = new Contact
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = dto.Name,
-            Email = dto.Email,
-            Message = dto.Message,
-            Created_At = DateTime.UtcNow
-        };
-
-        await _repository.AddAsync(contact);
+        var contact = _service.AddAsync(dto);
         return StatusCode(201, new { id = contact.Id });
 
     }
@@ -37,7 +30,7 @@ public class ContactController : ControllerBase
 
     public async Task<IActionResult> GetContacts()
     {
-        var contact = await _repository.GetAllAsync();
+        var contact = await _service.GetAllAsync();
         return Ok(contact);
     }
 }

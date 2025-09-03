@@ -4,6 +4,7 @@ using StudioIncantare.Models;
 using StudioIncantare.Repositories;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
+using StudioIncantare.Services;
 
 
 
@@ -13,51 +14,55 @@ namespace StudioIncantare.Controllers
     [Route("api/[controller]")]
     public class TeamMemberController : ControllerBase
     {
-        private readonly ITeamMemberRepository _repository;
+        private readonly ITeamMemberService _service;
 
 
-        public TeamMemberController(ITeamMemberRepository repository)
+        public TeamMemberController(ITeamMemberService service)
         {
-            this._repository = repository;
+            this._service = service;
         }
 
         [HttpGet]
 
-        public async Task<ActionResult> GetTeam()
+        public async Task<ActionResult> GetTeamAsync()
+
         {
-            var members = await _repository.GetAllAsync();
+            var members = await _service.GetAllAsync();
 
-            return Ok(members.Select(m => new TeamMemberResponseDto
+            if (members == null)
             {
-                Id = m.id.ToString(),
-                Name = m.Name,
-                Role = m.Role,
-                Bio = m.Bio,
-                Image_Url = m.Image_url,
-                Created_at = m.Created_at
+                return NotFound(new { mensagem = "nenhum membro encontrado" });
+            }
 
-            }));
+            return Ok(members);
+        }
+
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult> GetByIdAsync(string id)
+        {
+            var member = await _service.GetByIdAsync(id);
+
+            if (member == null)
+            {
+                return NotFound(new { mensagem = "membro nao encontrado " });
+            }
+            return Ok(member);
         }
 
         [HttpPost]
         [Authorize]
 
-        public async Task<ActionResult> InsertTeam(TeamMemberCreateDto dto)
+        public async Task<ActionResult> InsertAsync(TeamMemberCreateDto dto)
         {
 
-            var member = new TeamMember
-            {
-                id = Guid.NewGuid().ToString(),
-                Name = dto.Name,
-                Role = dto.Role,
-                Bio = dto.Bio,
-                Image_url = dto.Image_Url,
-                Created_at = DateTime.UtcNow
+            var member = await _service.InsertAsync(dto);
 
-            };
+            if (member == null) return NotFound(new { mensagem = "membro nao encontrado " });
 
-            await _repository.InsertAsync(member);
-            return Ok(new { member.id });
+            return Ok(new { mensagem = "membro cadastrado com sucesso " });
+
+
         }
 
         [HttpPut("{id}")]
@@ -65,17 +70,11 @@ namespace StudioIncantare.Controllers
 
         public async Task<ActionResult> UpdateMemberTeam(string id, [FromBody] TeamMemberCreateDto dto)
         {
-            var member = await _repository.GetByIdAsync(id);
+            var update = await _service.UpdateAsync(id, dto);
 
-            if (member == null) return NotFound(new { mensagem = "Membro nao encontrado " });
+            if (update == null) return NotFound(new { mensagem = "membro nao encontrado " });
 
-            member.Name = dto.Name;
-            member.Role = dto.Role;
-            member.Bio = dto.Bio;
-            member.Image_url = dto.Image_Url;
-
-            await _repository.UpdateAsync(member);
-            return Ok(new { mensagem = "Membro atualizado com sucesso " });
+            return Ok(new { mensagem = "membro atualizado com sucesso " });
 
         }
 
@@ -84,12 +83,11 @@ namespace StudioIncantare.Controllers
 
         public async Task<ActionResult> DeleteMemberTeam(string id)
         {
-            var member = await _repository.GetByIdAsync(id);
+            var delete = await _service.DeleteAsync(id);
 
-            if (member == null) return NotFound(new { mensagem = "Membro nao encontrado " });
+            if (!delete) return NotFound(new { mensagem = "membro nao encontrado" });
 
-            await _repository.DeleteAsync(id);
-            return Ok(new { mensagem = "Membro deletado com sucesso " });
+            return Ok(new { mensagem = "membro deletado com sucesso " });
         }
     }
 }

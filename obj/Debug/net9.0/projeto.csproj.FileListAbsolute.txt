@@ -1,3 +1,11 @@
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.csproj.AssemblyReference.cache
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.GeneratedMSBuildEditorConfig.editorconfig
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.AssemblyInfoInputs.cache
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.AssemblyInfo.cs
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.csproj.CoreCompileInputs.cache
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.MvcApplicationPartsAssemblyInfo.cs
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.MvcApplicationPartsAssemblyInfo.cache
+/home/nash/teste/projeto/obj/Debug/net9.0/projeto.sourcelink.json
 /home/nash/teste/projeto/bin/Debug/net9.0/appsettings.Development.json
 /home/nash/teste/projeto/bin/Debug/net9.0/appsettings.json
 /home/nash/teste/projeto/bin/Debug/net9.0/projeto.staticwebassets.endpoints.json
@@ -26,13 +34,6 @@
 /home/nash/teste/projeto/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /home/nash/teste/projeto/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /home/nash/teste/projeto/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.csproj.AssemblyReference.cache
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.GeneratedMSBuildEditorConfig.editorconfig
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.AssemblyInfoInputs.cache
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.AssemblyInfo.cs
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.csproj.CoreCompileInputs.cache
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.MvcApplicationPartsAssemblyInfo.cs
-/home/nash/teste/projeto/obj/Debug/net9.0/projeto.MvcApplicationPartsAssemblyInfo.cache
 /home/nash/teste/projeto/obj/Debug/net9.0/scopedcss/bundle/projeto.styles.css
 /home/nash/teste/projeto/obj/Debug/net9.0/staticwebassets.build.json
 /home/nash/teste/projeto/obj/Debug/net9.0/staticwebassets.development.json

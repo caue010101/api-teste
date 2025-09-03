@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using StudioIncantare.Dtos;
 using System.Text;
+using StudioIncantare.Services;
 using StudioIncantare.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,12 +39,13 @@ builder.Services.AddSingleton<StudioIncantare.Infrastructure.DapperContext>();
 
 // Repositórios
 builder.Services.AddScoped<StudioIncantare.Repositories.IContactRepository, StudioIncantare.Repositories.ContactRepository>();
-
+builder.Services.AddScoped<StudioIncantare.Repositories.IUserRepository, StudioIncantare.Repositories.UserRepository>();
 builder.Services.AddSingleton<StudioIncantare.Services.JwtService>();
 
-builder.Services.AddScoped<StudioIncantare.Repositories.IUserRepository, StudioIncantare.Repositories.UserRepository>();
-
 builder.Services.AddScoped<StudioIncantare.Repositories.ITeamMemberRepository, StudioIncantare.Repositories.TeamMemberRepository>();
+
+builder.Services.AddScoped<StudioIncantare.Services.IContactService, StudioIncantare.Services.ContactService>();
+builder.Services.AddScoped<StudioIncantare.Services.ITeamMemberService, StudioIncantare.Services.TeamMemberService>();
 var app = builder.Build();
 
 // Swagger apenas em dev
@@ -59,5 +61,6 @@ app.UseAuthorization();
 
 // Mapear controllers
 app.MapControllers();
+
 
 app.Run();
