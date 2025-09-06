@@ -11,13 +11,13 @@ namespace StudioIncantare.Controllers
 
     public class AuthController : ControllerBase
     {
-        private readonly JwtService _jwtService;
-        private readonly IUserRepository _userRepository;
 
-        public AuthController(JwtService jwtService, IUserRepository userRepository)
+        private readonly AuthService _authService;
+
+        public AuthController(AuthService service)
         {
-            this._jwtService = jwtService;
-            this._userRepository = userRepository;
+
+            this._authService = service;
         }
 
         [HttpPost("login")]
@@ -25,17 +25,12 @@ namespace StudioIncantare.Controllers
         {
 
 
-            var user = await _userRepository.GetByUsernameAsync(dto.Username);
-            if (user == null) return Unauthorized("Usuario ou senha invalidos ");
+            var token = await _authService.AuthenticateLogin(dto);
 
-
-            bool valid = BCrypt.Net.BCrypt.Verify(dto.Password, user.password_hash);
-
-            if (!valid) return Unauthorized("Usuario ou senha invalidos ");
-
-            var token = _jwtService.GenerateToken(user);
+            if (token == null) return Unauthorized(new { mensagem = "Usuario ou senha invalidos " });
 
             return Ok(new { token });
+
 
         }
     }
